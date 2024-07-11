@@ -1,0 +1,16 @@
+Cài đặt:
+composer update
+cp .env.example .env
+php artisan key:generate
+
+Tạo DataBase, Model, Controller:
+php artisan make:model Task -mcr
+php artisan make:model TaskStatus -mcr
+php artisan make:model TaskFollower -mcr
+php artisan make:migration add_task_status_id_to_tasks_table
+
+Chỉnh Model: User, Task, Task_Status, Task_Follower
+
+Login:
+composer require laravel/breeze --dev
+php artisan breeze:install
