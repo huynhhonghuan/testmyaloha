@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Task_Follower extends Model
 {
     use HasFactory;
+    protected $table = 'task_follower';
     protected $fillable = ['id', 'task_id', 'user_id'];
 }

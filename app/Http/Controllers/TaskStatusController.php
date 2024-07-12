@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
+use App\Http\Requests\TaskStatusRequest;
 use App\Models\Task_Status;
+use App\Repositories\TaskStatus\TaskStatusRepositoryInterface;
 use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
+    protected $taskStatusRepository;
+    
+    public function __construct(TaskStatusRepositoryInterface $taskStatusRepository)
+    {
+        $this->taskStatusRepository = $taskStatusRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $taskstatus = Task_Status::paginate(10);
+        // $taskstatus = Task_Status::paginate(10);
+        $taskstatus = $this->taskStatusRepository->all();
         return view('tasksmanagement.taskstatus.index', compact('taskstatus'));
     }
 
@@ -28,40 +36,36 @@ class TaskStatusController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskStatusRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:task_status|max:255',
-        ]);
-        Task_Status::create($request->all());
+        $this->taskStatusRepository->create($request->all());
         return redirect()->route('taskstatus.index')->with('success', 'added data successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task_Status $task_Status)
+    public function show($id)
     {
-        //
+        $task_Status = $this->taskStatusRepository->find($id);
+        return view('tasksmanagement.taskstatus.show', compact('task_Status'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task_Status $task_Status)
+    public function edit($id)
     {
+        $task_Status = $this->taskStatusRepository->find($id);
         return view('tasksmanagement.taskstatus.edit', compact('task_Status'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task_Status $task_Status)
+    public function update(TaskStatusRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:task_statuses,name,' . $task_Status->id,
-        ]);
-        $task_Status->update($request->all());
+        $this->taskStatusRepository->update($id, $request->all());
         return redirect()->route('taskstatus.index')->with('success', 'updated data successfully');
     }
 
@@ -70,8 +74,7 @@ class TaskStatusController extends Controller
      */
     public function destroy($id)
     {
-        $task_Status = Task_Status::findOrFail($id);
-        $task_Status->delete();
+        $this->taskStatusRepository->delete($id);
         return redirect()->route('taskstatus.index')->with('success', 'deleted data successfully');
     }
 }

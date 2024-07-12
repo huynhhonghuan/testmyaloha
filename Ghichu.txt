@@ -14,3 +14,15 @@ Chỉnh Model: User, Task, Task_Status, Task_Follower
 Login:
 composer require laravel/breeze --dev
 php artisan breeze:install
+
+Mutil Select:
+composer require coreui/coreui:5.0.2
+composer require select2/select2
+
+Repositories: User, Task, Task_Status
+
+FormRequest: User, Task, Task_Status
+
+Seeder Users:
+php artisan make:seeder UsersTableSeeder
+php artisan db:seed --class=UsersTableSeeder

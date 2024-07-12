@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e8c3c14ff33b199b4a0838993eb8423",
+    "content-hash": "c824411301ecb27bacc3615d6dbe9989",
     "packages": [
         {
             "name": "brick/math",
@@ -134,6 +134,59 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "coreui/coreui",
+            "version": "v5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coreui/coreui.git",
+                "reference": "98e192d20f5219817adbc3791f65ac1434836f71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coreui/coreui/zipball/98e192d20f5219817adbc3791f65ac1434836f71",
+                "reference": "98e192d20f5219817adbc3791f65ac1434836f71",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The CoreUI Team",
+                    "homepage": "https://github.com/orgs/coreui/people"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile-first projects on the web rewritten and maintain by the CoreUI Team",
+            "homepage": "https://coreui.io/",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "mobile-first",
+                "responsive",
+                "sass",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/coreui/coreui/issues",
+                "source": "https://github.com/coreui/coreui/tree/v5.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://coreui.io/pricing/?support=true",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://opencollective.com/coreui",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2024-05-27T13:33:33+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -3107,6 +3160,48 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "select2/select2",
+            "version": "4.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2.git",
+                "reference": "45f2b83ceed5231afa7b3d5b12b58ad335edd82e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2/zipball/45f2b83ceed5231afa7b3d5b12b58ad335edd82e",
+                "reference": "45f2b83ceed5231afa7b3d5b12b58ad335edd82e",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/js/select2.js"
+                    ],
+                    "styles": [
+                        "dist/css/select2.css"
+                    ],
+                    "files": [
+                        "dist/js/select2.js",
+                        "dist/js/i18n/*.js",
+                        "dist/css/select2.css"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Select2 is a jQuery based replacement for select boxes.",
+            "homepage": "https://select2.org/",
+            "support": {
+                "issues": "https://github.com/select2/select2/issues",
+                "source": "https://github.com/select2/select2/tree/4.0.13"
+            },
+            "time": "2020-01-28T05:01:22+00:00"
         },
         {
             "name": "symfony/clock",

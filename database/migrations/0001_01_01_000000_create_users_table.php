@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
 
@@ -55,7 +56,7 @@ return new class extends Migration
         ]);
 
         DB::table('users')->insert([
-            ['name' => 'Admin', 'email' => 'admin@example.com', 'password' => Hash::make('12345678'), 'role_id' => 1],
+            ['name' => 'Admin', 'email' => 'admin@example.com', 'password' => Hash::make('12345678'), 'role_id' => 1, 'status' => 1],
         ]);
     }
 
