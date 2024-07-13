@@ -5,23 +5,34 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Models\Task_Status;
+use App\Models\User;
 use App\Repositories\Task\TaskRepositoryInterface;
+use App\Repositories\TaskFollower\TaskFollowerRepositoryInterface;
+use App\Repositories\TaskStatus\TaskStatusRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    protected $taskRepository;
-    public function __construct(TaskRepositoryInterface $taskRepository)
+    /** @var TaskRepositoryInterface */
+    protected $taskstatusRepositoryInterface;
+    protected $taskRepositoryInterface;
+    protected $taskfollowerRepositoryInterface;
+    protected $userRepositoryInterface;
+
+    public function __construct(TaskStatusRepositoryInterface $taskstatusRepository, TaskRepositoryInterface $taskRepositoryInterface, TaskFollowerRepositoryInterface $taskFollowerRepository, UserRepositoryInterface $userRepositoryInterface)
     {
-        $this->taskRepository = $taskRepository;
+        $this->taskstatusRepositoryInterface = $taskstatusRepository;
+        $this->taskRepositoryInterface = $taskRepositoryInterface;
+        $this->taskfollowerRepositoryInterface = $taskFollowerRepository;
+        $this->userRepositoryInterface = $userRepositoryInterface;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // $tasks = Task::paginate(10);
-        $tasks = $this->taskRepository->all();
+        $tasks = $this->taskRepositoryInterface->paginate(10);
         return view('tasksmanagement.task.index', compact('tasks'));
     }
 
@@ -30,8 +41,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $task_statuses = Task_Status::all();
-        return view('tasksmanagement.task.create', compact('task_statuses'));
+        $task_statuses = $this->taskstatusRepositoryInterface->all();
+        $users = $this->userRepositoryInterface->dataexcept(1);  // lấy dữ liệu ngoại trừ tài khoản admin
+        return view('tasksmanagement.task.create', compact('task_statuses', 'users'));
     }
 
     /**
@@ -39,35 +51,19 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        // $request->validate([
-        //     'title' => 'required|string|max:255',
-        //     'description' => 'required|string|max:255',
-        //     'deadline' => 'required|date',
-        //     'user_id' => 'required|array',
-        //     'user_id.*' => 'exists:users,id',
-        //     'status_id' => 'required|exists:taskstatus,id',
-        // ]);
+        $task = $this->taskRepositoryInterface->create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'deadline' => $request->deadline,
+            'created_id' => 1, // admin
+            'assigned_id' => $request->assigned_id,
+            'status_id' => $request->status_id,
+            'note' => $request->note,
+        ]);
 
-        // $task = Task::create($request->all());
+        $this->taskfollowerRepositoryInterface->create($task->id, $request->follower_id);
 
-        // if ($task) {
-        //     $allInserted = true;
-        //     $taskFollowerController = new TaskFollowerController();
-
-        //     foreach ($request->user_id as $id) {
-        //         if (!$taskFollowerController->insertOne($task->id, $id)) {
-        //             $allInserted = false;
-        //         }
-        //     }
-
-        //     if (!$allInserted) {
-        //         return redirect()->route('tasksmanagement.task.index')
-        //             ->with('error', 'Task created, but some followers could not be added.');
-        //     }
-        // }
-
-
-        return redirect()->route('tasksmanagement.task.index')
+        return redirect()->route('task.index')
             ->with('success', 'Task created successfully.');
     }
 
@@ -76,7 +72,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $task = Task::findOrFail($id);
+        $task = $this->taskRepositoryInterface->find($id);
         return view('tasksmanagement.task.show', compact('task'));
     }
 
@@ -85,27 +81,31 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $task = Task::findOrFail($id);
-        return view('tasksmanagement.task.edit', compact('task'));
+        $task = $this->taskRepositoryInterface->find($id);
+        $task_statuses = $this->taskstatusRepositoryInterface->all();
+        $users = $this->userRepositoryInterface->dataexcept(1);  // lấy dữ liệu ngoại trừ tài khoản admin
+        return view('tasksmanagement.task.edit', compact('task', 'task_statuses', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(TaskRequest $request, $id)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'deadline' => 'required|date',
-            'user_id' => 'required|array',
-            'user_id.*' => 'exists:users,id',
-            'status_id' => 'required|exists:taskstatus,id',
+        $task = $this->taskRepositoryInterface->update($id, [
+            'title' => $request->title,
+            'description' => $request->description,
+            'deadline' => $request->deadline,
+            'created_id' => 1, // admin
+            'assigned_id' => $request->assigned_id,
+            'status_id' => $request->status_id,
+            'note' => $request->note,
         ]);
 
-        $task = Task::findOrFail($id);
-        $task->update($request->all());
-        return redirect()->route('tasksmanagement.task.index')
+        $this->taskfollowerRepositoryInterface->delete($task->id);
+        $this->taskfollowerRepositoryInterface->create($task->id, $request->follower_id);
+
+        return redirect()->route('task.index')
             ->with('success', 'Task updated successfully.');
     }
 
@@ -114,10 +114,10 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::findOrFail($id);
+        $this->taskfollowerRepositoryInterface->delete($id);
+        $this->taskRepositoryInterface->delete($id);
 
-        $task->delete();
-        return redirect()->route('tasksmanagement.task.index')
+        return redirect()->route('task.index')
             ->with('success', 'Task deleted successfully.');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\TaskFollower;
 
+use App\Models\Task;
 use App\Models\Task_Follower;
 
 class TaskFollowerRepository implements TaskFollowerRepositoryInterface
@@ -13,9 +14,21 @@ class TaskFollowerRepository implements TaskFollowerRepositoryInterface
         $this->model = $model;
     }
 
-    public function create($data)
+    public function create($task_id, $data)
     {
-        return $this->model->create($data);
+        $check = true;
+        if ($data)
+            foreach ($data as $d) {
+                if (!$this->model->create([
+                    'task_id' => $task_id,
+                    'user_id' => $d,
+                ])) {
+                    $check = false;
+                };
+            }
+        else
+            $check = false;
+        return $check;
     }
 
     public function delete($task_id)

@@ -30,12 +30,15 @@
                                     class="btn btn-info btn-sm">Xem</a> --}}
                                 <a href="{{ route('taskstatus.edit', $t->id) }}" class="btn btn-warning btn-sm">Sửa</a>
                                 <form action="{{ route('taskstatus.destroy', $t->id) }}" method="POST"
-                                    style="display:inline;">
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Bạn muốn xóa?')">Xóa</button>
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                        onclick="return false;">Xóa</button>
                                 </form>
+
+                                @include('alert.confirm-modal')
+
                             </td>
                         </tr>
                         @endforeach

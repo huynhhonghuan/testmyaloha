@@ -19,6 +19,7 @@
                             <th>Tên công việc</th>
                             <th>Mô tả công việc</th>
                             <th>Ngày hết hạn</th>
+                            <th>Người tạo việc</th>
                             <th>Người làm việc</th>
                             <th>Người theo dỗi</th>
                             <th>Trạng thái</th>
@@ -33,7 +34,8 @@
                             <td>{{ $t->title }}</td>
                             <td>{{ $t->description }}</td>
                             <td>{{ $t->deadline }}</td>
-                            <td>{{ $t->user->name }}</td>
+                            <td>{{ $t->createdid->name }}</td>
+                            <td>{{ $t->assignedid->name }}</td>
                             <td>
                                 @foreach ($t->followers as $follower)
                                     <button class="rounded border border-info mb-1">{{ $follower->name }}</button>

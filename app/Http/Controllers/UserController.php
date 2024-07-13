@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepository->all();
+        $users = $this->userRepository->paginate(10);
         return view('usermanagement.index', compact('users'));
     }
 

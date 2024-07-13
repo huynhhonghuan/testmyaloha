@@ -23,11 +23,12 @@ class TaskRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'deadline' => 'required|date',
-            'user_id' => 'required|array',
-            'user_id.*' => 'exists:users,id',
+            'assigned_id' => 'required|exists:users,id',
             'status_id' => 'required|exists:task_status,id',
+            'follower_id' => 'nullable|array|exists:users,id',
+            'note' => 'nullable|string',
         ];
     }
 }

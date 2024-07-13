@@ -16,4 +16,3 @@ Route::resource('user', UserController::class);
 // ----------------------------------------------------------------
 Route::resource('task', TaskController::class);
 Route::resource('taskstatus', TaskStatusController::class);
-Route::resource('taskfollower', TaskFollowerController::class);

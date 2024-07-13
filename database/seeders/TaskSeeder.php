@@ -22,7 +22,8 @@ class TaskSeeder extends Seeder
                 'title' => $faker->sentence,
                 'description' => $faker->paragraph,
                 'deadline' => $faker->date(),
-                'user_id' => $faker->numberBetween(1, 10), // assuming 10 users exist
+                'created_id' => $faker->numberBetween(1, 10), // assuming 10 users exist
+                'assigned_id' => $faker->numberBetween(1, 10), // assuming 10 users exist
                 'status_id' => $faker->numberBetween(1, 4), // assuming 5 statuses exist
                 'note' => $faker->sentence,
                 'created_at' => now(),

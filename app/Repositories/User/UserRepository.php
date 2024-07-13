@@ -7,14 +7,22 @@ use App\Models\User;
 class UserRepository implements UserRepositoryInterface
 {
     protected $model;
-    
+
     public function __construct(User $model)
     {
         $this->model = $model;
     }
     public function all()
     {
-        return $this->model->paginate(10);
+        return $this->model->all();
+    }
+    public function paginate($perPage)
+    {
+        return $this->model->paginate($perPage);
+    }
+    public function dataexcept($role_id)
+    {
+        return $this->model->where('role_id', '!=', $role_id)->get();
     }
     public function find($id)
     {

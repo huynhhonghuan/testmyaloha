@@ -34,7 +34,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{route('task.index')}}">Công việc</a></li>
                             <li><a class="dropdown-item" href={{route('taskstatus.index')}}>Trạng thái</a></li>
-                            <li><a class="dropdown-item" href="#">Người theo dỗi</a></li>
                         </ul>
                     </li>
                 </ul>

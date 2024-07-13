@@ -14,7 +14,11 @@ class TaskStatusRepository implements TaskStatusRepositoryInterface
     }
     public function all()
     {
-        return $this->model->paginate(10);
+        return $this->model->all();
+    }
+    public function paginate($perPage)
+    {
+        return $this->model->paginate($perPage);
     }
     public function find($id)
     {

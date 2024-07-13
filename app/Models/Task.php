@@ -9,10 +9,15 @@ class Task extends Model
 {
     use HasFactory;
     protected $table = 'tasks';
-    protected $fillable = ['id', 'title', 'description', 'deadline', 'user_id', 'status_id', 'note'];
-    public function user()
+    protected $fillable = ['id', 'title', 'description', 'deadline', 'created_id', 'assigned_id', 'status_id', 'note'];
+
+    public function createdid()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_id');
+    }
+    public function assignedid()
+    {
+        return $this->belongsTo(User::class, 'assigned_id');
     }
     public function status()
     {

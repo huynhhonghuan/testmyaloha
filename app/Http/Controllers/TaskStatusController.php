@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class TaskStatusController extends Controller
 {
     protected $taskStatusRepository;
-    
+
     public function __construct(TaskStatusRepositoryInterface $taskStatusRepository)
     {
         $this->taskStatusRepository = $taskStatusRepository;
@@ -21,7 +21,7 @@ class TaskStatusController extends Controller
     public function index()
     {
         // $taskstatus = Task_Status::paginate(10);
-        $taskstatus = $this->taskStatusRepository->all();
+        $taskstatus = $this->taskStatusRepository->paginate(10);
         return view('tasksmanagement.taskstatus.index', compact('taskstatus'));
     }
 
@@ -74,7 +74,12 @@ class TaskStatusController extends Controller
      */
     public function destroy($id)
     {
-        $this->taskStatusRepository->delete($id);
+
+        try {
+            $this->taskStatusRepository->delete($id);
+        } catch (\Exception $e) {
+            return redirect()->route('taskstatus.index')->with('error', 'Failed to delete data :))'); // . $e->getMessage()
+        }
         return redirect()->route('taskstatus.index')->with('success', 'deleted data successfully');
     }
 }

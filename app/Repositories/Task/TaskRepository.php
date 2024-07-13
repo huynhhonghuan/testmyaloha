@@ -15,7 +15,12 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function all()
     {
-        return $this->model->paginate(10);
+        return $this->model->orderBy('updated_at', 'desc')->get();
+    }
+
+    public function paginate($perPage)
+    {
+        return $this->model->orderBy('updated_at', 'desc')->paginate($perPage);
     }
 
     public function find($id)

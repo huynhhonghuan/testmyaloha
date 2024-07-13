@@ -23,10 +23,12 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->date('deadline')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('created_id');
+            $table->foreign('created_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('assigned_id');
+            $table->foreign('assigned_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('status_id');
-            $table->foreign('status_id')->references('id')->on('task_status')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('task_status')->onDelete('restrict');
             $table->string('note')->nullable();
             $table->timestamps();
         });
