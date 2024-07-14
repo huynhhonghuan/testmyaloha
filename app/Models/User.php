@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+    public function is_admin()
+    {
+        return in_array($this->role_id, [
+            1
+        ]);
+    }
 }

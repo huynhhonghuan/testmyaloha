@@ -33,7 +33,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = $this->taskRepositoryInterface->paginate(10);
-        return view('tasksmanagement.task.index', compact('tasks'));
+        $taskstatus = $this->taskstatusRepositoryInterface->all();
+        return view('tasksmanagement.task.index', compact('tasks', 'taskstatus'));
     }
 
     /**
@@ -119,5 +120,16 @@ class TaskController extends Controller
 
         return redirect()->route('task.index')
             ->with('success', 'Task deleted successfully.');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $task = Task::find($request->task_id);
+        if ($task) {
+            $task->status_id = $request->status_id;
+            $task->save();
+            return response()->json(['success' => 'Status updated successfully!']);
+        }
+        return response()->json(['error' => 'Task not found!'], 404);
     }
 }
