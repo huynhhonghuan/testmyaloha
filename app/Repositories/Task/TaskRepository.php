@@ -52,4 +52,14 @@ class TaskRepository implements TaskRepositoryInterface
         }
         return false;
     }
+    public function updateStatus($id, $status_id)
+    {
+        $task = $this->model->find($id);
+        if ($task) {
+            $task->status_id = $status_id;
+            $task->save();
+            return $task;
+        }
+        return null;
+    }
 }

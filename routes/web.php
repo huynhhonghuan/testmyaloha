@@ -36,7 +36,3 @@ require __DIR__ . '/auth.php'; // nhúng tất cả các route ở auth.php
 Route::get('/test', function () {
     return 'Middleware test passed';
 })->middleware('admin');
-
-Route::get('/bs5', function () {
-    return view('bs5');
-});

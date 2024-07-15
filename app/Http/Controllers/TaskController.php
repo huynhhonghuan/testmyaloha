@@ -43,7 +43,7 @@ class TaskController extends Controller
     public function create()
     {
         $task_statuses = $this->taskstatusRepositoryInterface->all();
-        $users = $this->userRepositoryInterface->dataexcept(1);  // lấy dữ liệu ngoại trừ tài khoản admin
+        $users = $this->userRepositoryInterface->userStatus(1); // lấy user đang hoạt động
         return view('tasksmanagement.task.create', compact('task_statuses', 'users'));
     }
 
@@ -84,7 +84,7 @@ class TaskController extends Controller
     {
         $task = $this->taskRepositoryInterface->find($id);
         $task_statuses = $this->taskstatusRepositoryInterface->all();
-        $users = $this->userRepositoryInterface->dataexcept(1);  // lấy dữ liệu ngoại trừ tài khoản admin
+        $users = $this->userRepositoryInterface->userStatus(1); // lấy user đang hoạt động
         return view('tasksmanagement.task.edit', compact('task', 'task_statuses', 'users'));
     }
 
@@ -124,12 +124,11 @@ class TaskController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $task = Task::find($request->task_id);
-        if ($task) {
-            $task->status_id = $request->status_id;
-            $task->save();
+        try {
+            $this->taskRepositoryInterface->updateStatus($request->task_id, $request->status_id);
             return response()->json(['success' => 'Status updated successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-        return response()->json(['error' => 'Task not found!'], 404);
     }
 }

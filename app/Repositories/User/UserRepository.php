@@ -24,30 +24,8 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->model->where('role_id', '!=', $role_id)->get();
     }
-    public function find($id)
+    public function userStatus($status)
     {
-        return $this->model->find($id);
-    }
-    public function create($data)
-    {
-        return $this->model->create($data);
-    }
-    public function update($id, $data)
-    {
-        $model = $this->find($id);
-        if ($model) {
-            $model->update($data);
-            return $model;
-        }
-        return null;
-    }
-    public function delete($id)
-    {
-        $model = $this->find($id);
-        if ($model) {
-            $model->delete();
-            return true;
-        }
-        return false;
+        return $this->model->where('status', $status)->get();
     }
 }

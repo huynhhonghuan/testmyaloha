@@ -55,7 +55,7 @@
                                                 @foreach($users as $u)
                                                 <option value="{{$u->id }}">{{ $u->name }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select>   
                                         </div>
                                     </div>
                                     <div class="form-floating mb-3">
