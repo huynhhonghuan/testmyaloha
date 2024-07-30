@@ -10,5 +10,4 @@ class Task_Status extends Model
     use HasFactory;
     protected $table = 'task_status';
     protected $fillable = ['id', 'name'];
-
 }

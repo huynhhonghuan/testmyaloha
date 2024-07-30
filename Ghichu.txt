@@ -27,3 +27,6 @@ Seeder Users:
 php artisan make:seeder UsersTableSeeder
 php artisan db:seed --class=UsersTableSeeder
 php artisan db:seed --class=TaskSeeder
+
+Xóa Cache:
+php artisan optimize:clear

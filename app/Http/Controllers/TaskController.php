@@ -57,7 +57,7 @@ class TaskController extends Controller
             'description' => $request->description,
             'deadline' => $request->deadline,
             'created_id' => 1, // admin
-            'assigned_id' => $request->assigned_id,
+            'assigned_id' => $request->assigned_id,//người làm việc (chịu trách nhiệm chính của công việc đó)
             'status_id' => $request->status_id,
             'note' => $request->note,
         ]);
